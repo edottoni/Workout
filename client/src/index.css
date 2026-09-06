@@ -1,0 +1,364 @@
+/* =============================================================
+   DESIGN SYSTEM: Midnight Glassmorphism / Premium Dark
+   Philosophy: Deep dark gradient bg + frosted glass cards
+   Color code by muscle group: red=chest, purple=triceps,
+   blue=back, green=biceps, yellow=shoulder, brown=legs
+   Fonts: Syne (titles) + JetBrains Mono (timer) + Inter (body)
+   ============================================================= */
+
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+:root {
+  --radius: 0.75rem;
+  --background: oklch(0.12 0.02 270);
+  --foreground: oklch(0.95 0.01 270);
+  --card: oklch(0.18 0.025 270);
+  --card-foreground: oklch(0.95 0.01 270);
+  --popover: oklch(0.16 0.025 270);
+  --popover-foreground: oklch(0.95 0.01 270);
+  --primary: oklch(0.65 0.22 290);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.22 0.02 270);
+  --secondary-foreground: oklch(0.85 0.01 270);
+  --muted: oklch(0.20 0.015 270);
+  --muted-foreground: oklch(0.60 0.02 270);
+  --accent: oklch(0.65 0.22 290);
+  --accent-foreground: oklch(0.98 0 0);
+  --destructive: oklch(0.65 0.22 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.65 0.22 290);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  html, body {
+    /* Prevents the WebView's native pull-to-refresh / rubber-band bounce and the
+       glow/gray "overscroll" flash on Android, which reads as a bug in a packaged app. */
+    overscroll-behavior: none;
+    /* Avoids the double-tap-to-zoom delay on touch, and stray text selection
+       from long-presses that feel like bugs in a native-feeling app. */
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    /* Keep content clear of notches / gesture bars / the Android status+nav
+       bars now that the app runs edge-to-edge inside a WebView instead of a
+       browser chrome. Falls back to 0 on platforms without safe-area support. */
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Syne', sans-serif;
+  }
+
+  .font-mono, .timer-display {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled),
+  a[href],
+  select:not(:disabled),
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled) {
+    @apply cursor-pointer;
+  }
+}
+
+/* ============================================================
+   GLASSMORPHISM UTILITIES
+   ============================================================ */
+.glass {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.glass-dark {
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ============================================================
+   MUSCLE GROUP COLOR SYSTEM
+   ============================================================ */
+.muscle-chest    { --muscle-color: #ef4444; --muscle-glow: rgba(239,68,68,0.3); }
+.muscle-triceps  { --muscle-color: #a855f7; --muscle-glow: rgba(168,85,247,0.3); }
+.muscle-back     { --muscle-color: #3b82f6; --muscle-glow: rgba(59,130,246,0.3); }
+.muscle-biceps   { --muscle-color: #22c55e; --muscle-glow: rgba(34,197,94,0.3); }
+.muscle-shoulder { --muscle-color: #eab308; --muscle-glow: rgba(234,179,8,0.3); }
+.muscle-legs     { --muscle-color: #f97316; --muscle-glow: rgba(249,115,22,0.3); }
+.muscle-calves   { --muscle-color: #06b6d4; --muscle-glow: rgba(6,182,212,0.3); }
+.muscle-fullbody { --muscle-color: #ec4899; --muscle-glow: rgba(236,72,153,0.3); }
+
+/* ============================================================
+   TIMER RING ANIMATION
+   ============================================================ */
+@keyframes timerPulse {
+  0%, 100% { filter: drop-shadow(0 0 6px var(--timer-color, #a855f7)); }
+  50% { filter: drop-shadow(0 0 16px var(--timer-color, #a855f7)); }
+}
+
+@keyframes timerFinish {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.08); }
+  50% { transform: scale(0.96); }
+  75% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeSlideOut {
+  from { opacity: 1; transform: translateY(0) scaleY(1); max-height: 200px; }
+  to { opacity: 0; transform: translateY(-8px) scaleY(0.85); max-height: 0; }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.8); opacity: 0; }
+  70% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes overlaySlideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes overlaySlideDown {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(100%); opacity: 0; }
+}
+
+@keyframes celebrationPop {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.12); }
+  60% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+.animate-fade-slide-in {
+  animation: fadeSlideIn 0.35s ease-out forwards;
+}
+
+/* Ensure elements with inline animation start invisible */
+[style*="animation: fadeSlideIn"] {
+  opacity: 0;
+}
+
+.animate-pop-in {
+  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-timer-pulse {
+  animation: timerPulse 2s ease-in-out infinite;
+}
+
+.animate-timer-finish {
+  animation: timerFinish 0.6s ease-in-out;
+}
+
+.animate-overlay-up {
+  animation: overlaySlideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-overlay-down {
+  animation: overlaySlideDown 0.3s ease-in forwards;
+}
+
+.animate-celebration {
+  animation: celebrationPop 0.5s ease-in-out;
+}
+
+/* ============================================================
+   EXERCISE CARD STATES
+   ============================================================ */
+.exercise-card {
+  transition: all 0.3s ease;
+  border-left: 3px solid var(--muscle-color, #a855f7);
+}
+
+.exercise-card.completed {
+  opacity: 0.4;
+  transform: scaleY(0.95);
+  filter: grayscale(0.6);
+  pointer-events: none;
+}
+
+.exercise-card.completing {
+  animation: fadeSlideOut 0.6s ease-out forwards;
+}
+
+/* ============================================================
+   CUSTOM CHECKBOX
+   ============================================================ */
+.series-checkbox {
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border: 2px solid rgba(255,255,255,0.25);
+  border-radius: 6px;
+  background: rgba(255,255,255,0.05);
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.series-checkbox:checked {
+  background: var(--muscle-color, #a855f7);
+  border-color: var(--muscle-color, #a855f7);
+  box-shadow: 0 0 10px var(--muscle-glow, rgba(168,85,247,0.4));
+}
+
+.series-checkbox:checked::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 6px;
+  width: 6px;
+  height: 10px;
+  border: 2px solid white;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+.series-checkbox:hover:not(:checked) {
+  border-color: var(--muscle-color, #a855f7);
+  background: rgba(255,255,255,0.08);
+}
+
+/* ============================================================
+   DAY CARD HOVER
+   ============================================================ */
+.day-card {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+}
+
+.day-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 20px var(--muscle-glow, rgba(168,85,247,0.2));
+}
+
+.day-card.active {
+  box-shadow: 0 0 0 2px var(--muscle-color, #a855f7), 0 8px 30px var(--muscle-glow, rgba(168,85,247,0.3));
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.03);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.15);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+/* ============================================================
+   CONTAINER
+   ============================================================ */
+@layer components {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      max-width: 1000px;
+    }
+  }
+}
