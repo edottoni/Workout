@@ -1,0 +1,11 @@
+rootProject.name = 'Workout Scheduler'
+
+include ':app'
+include ':capacitor-cordova-android-plugins'
+project(':capacitor-cordova-android-plugins').projectDir = new File('./capacitor-cordova-android-plugins/')
+
+// The following block is (re)written by `npx cap sync android` / `npx cap update android`,
+// which appends `apply from: '../node_modules/@capacitor/android/capacitor.settings.gradle'`.
+// Running `npx cap sync android` after `pnpm install` is REQUIRED before the first Gradle
+// build — it wires up every installed Capacitor plugin as its own Gradle module.
+apply from: 'capacitor.settings.gradle'

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Simple solid-color placeholder splash background. Replace with a layer-list that
+     includes a centered logo drawable once final branding assets are available. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/splashBackground" />
+</shape>
